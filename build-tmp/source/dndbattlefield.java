@@ -20,23 +20,6 @@ public void setup()
 {
 	
 	initializeBattlefield();
-	//TESTING THE BLINKS
-	mapper[((int)(Math.random()*75))][((int)(Math.random()*49))].setSelecting(true);
-	System.out.println(((int)(Math.random()*75)));
-	mapper[((int)(Math.random()*75))][((int)(Math.random()*49))].setSelecting(true);
-	System.out.println(((int)(Math.random()*75)));
-	mapper[((int)(Math.random()*75))][((int)(Math.random()*49))].setSelecting(true);
-	System.out.println(((int)(Math.random()*75)));
-	mapper[((int)(Math.random()*75))][((int)(Math.random()*49))].setSelecting(true);
-	System.out.println(((int)(Math.random()*75)));
-	mapper[((int)(Math.random()*75))][((int)(Math.random()*49))].setSelected(true);
-	System.out.println(((int)(Math.random()*75)));
-	mapper[((int)(Math.random()*75))][((int)(Math.random()*49))].setSelected(true);
-	System.out.println(((int)(Math.random()*75)));
-	mapper[((int)(Math.random()*75))][((int)(Math.random()*49))].setSelected(true);
-	System.out.println(((int)(Math.random()*75)));
-	mapper[((int)(Math.random()*75))][((int)(Math.random()*49))].setSelected(true);
-	System.out.println(((int)(Math.random()*75)));
 }
 public void draw()
 {
@@ -72,13 +55,14 @@ public void showBattlefield()
 class BattleSquare
 {
 	private int trackX, trackY;
-	private boolean selecting, selected;
+	private boolean active, selecting, selected;
 	public BattleSquare(int inputX, int inputY)
 	{
 		trackX = inputX*20;
 		trackY = inputY*20;
 		selecting = false;
 		selected = false;
+		active = true;
 	}
 	public void setSelecting(boolean input){selecting = input;}
 	public void setSelected(boolean input){selected = input;}

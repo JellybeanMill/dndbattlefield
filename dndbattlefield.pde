@@ -39,7 +39,7 @@ public void showBattlefield()
 class BattleSquare
 {
 	private int trackX, trackY;
-	private boolean ative, selecting, selected;
+	private boolean active, selecting, selected;
 	public BattleSquare(int inputX, int inputY)
 	{
 		trackX = inputX*20;
