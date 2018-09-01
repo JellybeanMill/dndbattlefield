@@ -1,15 +1,50 @@
 BattleSquare [][] mapper = new BattleSquare[75][49];
 int framecounter = 0;
+boolean keyLeft;
+boolean keyUp;
+boolean keyRight;
+boolean keyDown;
+int [] cursorXY= new int[]{0,0};
 public void setup()
 {
 	size(1800,980);
 	initializeBattlefield();
+	mapper[0][0].setStatus(2);
+	mapper[0][1].setStatus(3);
 }
 public void draw()
 {
 	countframe();
 	background(0);
+	determineCursor();
 	showBattlefield();
+}
+public void keyPressed()
+{
+	if (key == CODED)
+	{
+		if(keyCode == LEFT){keyLeft = true;}
+		if(keyCode == UP){keyUp = true;}
+		if(keyCode == RIGHT){keyRight = true;}
+		if(keyCode == DOWN){keyDown = true;}
+	}
+}
+public void keyReleased()
+{
+	if (key == CODED)
+	{
+		if(keyCode == LEFT){keyLeft = false;}
+		if(keyCode == UP){keyUp = false;}
+		if(keyCode == RIGHT){keyRight = false;}
+		if(keyCode == DOWN){keyDown = false;}
+	}
+}
+public void determineCursor()
+{
+	if (keyLeft = true && framecounter %10==0)
+	{
+		cursorXY[1]++;
+	}
 }
 public void countframe()
 {
@@ -38,35 +73,38 @@ public void showBattlefield()
 }
 class BattleSquare
 {
-	private int trackX, trackY;
-	private boolean active, selecting, selected;
+	private int trackX, trackY, status;
 	public BattleSquare(int inputX, int inputY)
 	{
 		trackX = inputX*20;
 		trackY = inputY*20;
-		selecting = false;
-		selected = false;
-		active = true;
+		status = 1;/* 0 = nonactive, 1 = active, waiting, 2 = cursor blinking, 3 = cursor selected*/
 	}
-	public void setSelecting(boolean input){selecting = input;}
-	public void setSelected(boolean input){selected = input;}
+	public void setStatus(int input){status = input;}
 	public void show()
 	{
-		stroke(255);
 		fill(0);
-		if(selected == false && selecting == false)
+		if(status == 1)
 		{
+			stroke(255);
 			rect(trackX,trackY,19,19);
 		}
-		else if(selected == false)
+		else if(status == 3)
 		{
+			stroke(0,255,0);
 			rect(trackX,trackY,19,19);
 			rect(trackX+1,trackY+1,17,17);
 		}
 		else
 		{
+			stroke(255);
 			rect(trackX,trackY,19,19);
-			if(framecounter<31){rect(trackX+1,trackY+1,17,17);}
+			if(framecounter<31)
+			{
+				stroke(0,255,0);
+				rect(trackX,trackY,19,19);
+				rect(trackX+1,trackY+1,17,17);
+			}
 		}
 	}
 }
