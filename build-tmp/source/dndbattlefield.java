@@ -20,13 +20,13 @@ boolean keyLeft;
 boolean keyUp;
 boolean keyRight;
 boolean keyDown;
-int [] cursorXY= new int[]{0,0};
+int cursorX = 0;
+int cursorY = 0;
+boolean cursorDown=false;
 public void setup()
 {
 	
 	initializeBattlefield();
-	mapper[0][0].setStatus(2);
-	mapper[0][1].setStatus(3);
 }
 public void draw()
 {
@@ -57,9 +57,29 @@ public void keyReleased()
 }
 public void determineCursor()
 {
-	if (keyLeft = true && framecounter %10==0)
+	if (keyLeft == true && cursorX>0 && framecounter%5==0)
 	{
-		cursorXY[1]++;
+		mapper[cursorX][cursorY].setCursorStatus(1);
+		cursorX--;
+		mapper[cursorX][cursorY].setCursorStatus(2);
+	}
+	else if (keyRight == true && cursorX<74 && framecounter%5==0)
+	{
+		mapper[cursorX][cursorY].setCursorStatus(1);
+		cursorX++;
+		mapper[cursorX][cursorY].setCursorStatus(2);
+	}
+	else if (keyUp == true && cursorY>0 && framecounter%5==0)
+	{
+		mapper[cursorX][cursorY].setCursorStatus(1);
+		cursorY--;
+		mapper[cursorX][cursorY].setCursorStatus(2);
+	}
+	else if (keyDown == true && cursorY<48 && framecounter%5==0)
+	{
+		mapper[cursorX][cursorY].setCursorStatus(1);
+		cursorY++;
+		mapper[cursorX][cursorY].setCursorStatus(2);
 	}
 }
 public void countframe()
@@ -89,33 +109,37 @@ public void showBattlefield()
 }
 class BattleSquare
 {
-	private int trackX, trackY, status;
+	private int trackX, trackY, status, cursorStatus;
 	public BattleSquare(int inputX, int inputY)
 	{
 		trackX = inputX*20;
 		trackY = inputY*20;
-		status = 1;/* 0 = nonactive, 1 = active, waiting, 2 = cursor blinking, 3 = cursor selected*/
+		cursorStatus = 1; /*1 = normal, 2 = selecting, 3 = selected*/
+		status = 1;/* 0 = nonactive, 1 = active*/
 	}
+	public void setCursorStatus(int input){cursorStatus = input;}
 	public void setStatus(int input){status = input;}
 	public void show()
 	{
 		fill(0);
+		//For normal field descrptions
 		if(status == 1)
 		{
 			stroke(255);
 			rect(trackX,trackY,19,19);
 		}
-		else if(status == 3)
+		//For cursor looks
+		if(cursorStatus == 3)
 		{
 			stroke(0,255,0);
 			rect(trackX,trackY,19,19);
 			rect(trackX+1,trackY+1,17,17);
 		}
-		else
+		else if (cursorStatus == 2)
 		{
 			stroke(255);
 			rect(trackX,trackY,19,19);
-			if(framecounter<31)
+			if(framecounter<31 || keyPressed)
 			{
 				stroke(0,255,0);
 				rect(trackX,trackY,19,19);
